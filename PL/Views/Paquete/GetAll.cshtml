@@ -1,0 +1,53 @@
+﻿@model ML.Paquete
+
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+}
+
+<h1 class="text-center">Paquetes</h1>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row g-3" id="fuImage">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-earmark-text-fill" style="color: lightseagreen"></i></span>
+                <input type='file' class="form-control" name="Excel" id="Excel"/>
+            </div>
+        </div>
+    </div>
+
+}
+
+@if (Model.Paquetes != null && Model.Paquetes.Count > 0)
+{
+    <div class="d-flex justify-content-center flex-wrap">
+        @foreach (ML.Paquete paquete in Model.Paquetes)
+        {
+            <div class="card text-center m-2" style="width: 18rem;">
+
+                @using (Html.BeginForm("AddEnvio", "Envio", FormMethod.Post, new { enctype = "multipart/form-data", @class = "container", @autocomplete = "off" }))
+                {
+                    <h5 class="card-title p-2">Paquete @i</h5>
+                    <img src="https://static.vecteezy.com/system/resources/previews/003/692/282/non_2x/cartoon-closed-parcel-illustration-free-vector.jpg" class="card-img-top mx-auto d-block" alt="Imagen del producto" style="width: 40%;">
+                    <div class="card-body">
+                        <input hidden value="@paquete.IdPaquete" name="IdPaquete" id="IdPaquete" />
+                        <p class="card-text">Número de Guía: <strong>@paquete.NumeroGuia</strong></p>
+                        <p class="card-text">Instrucciones entrega: @paquete.InstruccionEntrega</p>
+                        <p class="card-text">Peso: @paquete.Peso</p>
+                        <p class="card-text">Fecha Estimada de Entrega: @paquete.FechaEstimadaEntrega.ToShortDateString()</p>
+                        @Html.DropDownListFor(model => model.Repartidor.IdRepartidor, new SelectList(Model.Repartidor.Repartidores, "IdRepartidor", "Nombre"), "Selecciona un repartidor")
+                        <br> <br />
+                        <button type="submit" class="btn btn-primary mx-auto d-block">Agregar Envío</button>
+                    </div>
+
+                }
+            </div>
+
+            i++;
+        }
+    </div>
+}
+

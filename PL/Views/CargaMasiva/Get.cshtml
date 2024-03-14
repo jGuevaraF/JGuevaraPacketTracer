@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Get";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Get</h2>
+
+<div class="container">
+    @using(Html.BeginForm("Carga", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+    <input type="file" name="ArchivoExcel"/>
+    <input type="submit" value="Procesar">
+    }
+
+</div>
+

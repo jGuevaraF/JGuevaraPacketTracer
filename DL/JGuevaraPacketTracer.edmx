@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PacketTracerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EstatusTransporte">
+          <Key>
+            <PropertyRef Name="IdEstatus" />
+          </Key>
+          <Property Name="IdEstatus" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Estatus" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paquete">
+          <Key>
+            <PropertyRef Name="IdPaquete" />
+          </Key>
+          <Property Name="IdPaquete" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InstruccionEntrega" Type="varchar" MaxLength="250" />
+          <Property Name="Peso" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="DireccionOrigen" Type="varchar" MaxLength="250" />
+          <Property Name="DireccionEntrega" Type="varchar" MaxLength="250" />
+          <Property Name="FechaEstimadaEntrega" Type="date" />
+          <Property Name="NumeroGuia" Type="varchar" MaxLength="15" />
+          <Property Name="CodigoQR" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Repartidor">
+          <Key>
+            <PropertyRef Name="IdRepartidor" />
+          </Key>
+          <Property Name="IdRepartidor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Transporte">
+          <Key>
+            <PropertyRef Name="IdTransporte" />
+          </Key>
+          <Property Name="IdTransporte" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroPlaca" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Modelo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Marca" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AnioFabricacion" Type="date" />
+          <Property Name="IdEstatusTransporte" Type="tinyint" />
+        </EntityType>
+        <Association Name="FK__Transport__IdEst__1273C1CD">
+          <End Role="EstatusTransporte" Type="Self.EstatusTransporte" Multiplicity="0..1" />
+          <End Role="Transporte" Type="Self.Transporte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstatusTransporte">
+              <PropertyRef Name="IdEstatus" />
+            </Principal>
+            <Dependent Role="Transporte">
+              <PropertyRef Name="IdEstatusTransporte" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="PaqueteAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InstruccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="Peso" Type="decimal" Mode="In" />
+          <Parameter Name="DireccionOrigen" Type="varchar" Mode="In" />
+          <Parameter Name="DireccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="FechaEstimadaEntrega" Type="date" Mode="In" />
+          <Parameter Name="NumeroGuia" Type="varchar" Mode="In" />
+          <Parameter Name="CodigoQR" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="PaqueteDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPaquete" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PaqueteGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="PaqueteGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPaquete" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PaqueteUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPaquete" Type="int" Mode="In" />
+          <Parameter Name="InstruccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="Peso" Type="decimal" Mode="In" />
+          <Parameter Name="DireccionOrigen" Type="varchar" Mode="In" />
+          <Parameter Name="DireccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="FechaEstimadaEntrega" Type="date" Mode="In" />
+          <Parameter Name="NumeroGuia" Type="varchar" Mode="In" />
+          <Parameter Name="CodigoQR" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="RepartidorGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="RepartidorGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdRepartidor" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="PacketTracerModelStoreContainer">
+          <EntitySet Name="EstatusTransporte" EntityType="Self.EstatusTransporte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paquete" EntityType="Self.Paquete" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Repartidor" EntityType="Self.Repartidor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transporte" EntityType="Self.Transporte" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Transport__IdEst__1273C1CD" Association="Self.FK__Transport__IdEst__1273C1CD">
+            <End Role="EstatusTransporte" EntitySet="EstatusTransporte" />
+            <End Role="Transporte" EntitySet="Transporte" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PacketTracerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EstatusTransporte">
+          <Key>
+            <PropertyRef Name="IdEstatus" />
+          </Key>
+          <Property Name="IdEstatus" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Estatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Transportes" Relationship="Self.FK__Transport__IdEst__1273C1CD" FromRole="EstatusTransporte" ToRole="Transporte" />
+        </EntityType>
+        <EntityType Name="Paquete">
+          <Key>
+            <PropertyRef Name="IdPaquete" />
+          </Key>
+          <Property Name="IdPaquete" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InstruccionEntrega" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Peso" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DireccionOrigen" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionEntrega" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEstimadaEntrega" Type="DateTime" Precision="0" />
+          <Property Name="NumeroGuia" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoQR" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Transporte">
+          <Key>
+            <PropertyRef Name="IdTransporte" />
+          </Key>
+          <Property Name="IdTransporte" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroPlaca" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Modelo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AnioFabricacion" Type="DateTime" Precision="0" />
+          <Property Name="IdEstatusTransporte" Type="Byte" />
+          <NavigationProperty Name="EstatusTransporte" Relationship="Self.FK__Transport__IdEst__1273C1CD" FromRole="Transporte" ToRole="EstatusTransporte" />
+        </EntityType>
+        <Association Name="FK__Transport__IdEst__1273C1CD">
+          <End Role="EstatusTransporte" Type="Self.EstatusTransporte" Multiplicity="0..1" />
+          <End Role="Transporte" Type="Self.Transporte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstatusTransporte">
+              <PropertyRef Name="IdEstatus" />
+            </Principal>
+            <Dependent Role="Transporte">
+              <PropertyRef Name="IdEstatusTransporte" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PacketTracerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EstatusTransportes" EntityType="Self.EstatusTransporte" />
+          <EntitySet Name="Paquetes" EntityType="Self.Paquete" />
+          <EntitySet Name="Transportes" EntityType="Self.Transporte" />
+          <AssociationSet Name="FK__Transport__IdEst__1273C1CD" Association="Self.FK__Transport__IdEst__1273C1CD">
+            <End Role="EstatusTransporte" EntitySet="EstatusTransportes" />
+            <End Role="Transporte" EntitySet="Transportes" />
+          </AssociationSet>
+          <FunctionImport Name="PaqueteAdd">
+            <Parameter Name="InstruccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="Peso" Mode="In" Type="Decimal" />
+            <Parameter Name="DireccionOrigen" Mode="In" Type="String" />
+            <Parameter Name="DireccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="FechaEstimadaEntrega" Mode="In" Type="DateTime" />
+            <Parameter Name="NumeroGuia" Mode="In" Type="String" />
+            <Parameter Name="CodigoQR" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="PaqueteDelete">
+          <Parameter Name="IdPaquete" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PaqueteGetAll" ReturnType="Collection(PacketTracerModel.PaqueteGetAll_Result)" />
+          <FunctionImport Name="PaqueteGetById" ReturnType="Collection(PacketTracerModel.PaqueteGetById_Result)">
+          <Parameter Name="IdPaquete" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PaqueteUpdate">
+            <Parameter Name="IdPaquete" Mode="In" Type="Int32" />
+            <Parameter Name="InstruccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="Peso" Mode="In" Type="Decimal" />
+            <Parameter Name="DireccionOrigen" Mode="In" Type="String" />
+            <Parameter Name="DireccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="FechaEstimadaEntrega" Mode="In" Type="DateTime" />
+            <Parameter Name="NumeroGuia" Mode="In" Type="String" />
+            <Parameter Name="CodigoQR" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <EntitySet Name="Repartidors" EntityType="PacketTracerModel.Repartidor" />
+          <FunctionImport Name="RepartidorGetAll" ReturnType="Collection(PacketTracerModel.RepartidorGetAll_Result)" />
+          <FunctionImport Name="RepartidorGetById" ReturnType="Collection(PacketTracerModel.RepartidorGetById_Result)">
+            <Parameter Name="IdRepartidor" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="PaqueteGetAll_Result">
+          <Property Type="Int32" Name="IdPaquete" Nullable="false" />
+          <Property Type="String" Name="InstruccionEntrega" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="Peso" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="DireccionOrigen" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DireccionEntrega" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="FechaEstimadaEntrega" Nullable="true" />
+          <Property Type="String" Name="NumeroGuia" Nullable="true" MaxLength="15" />
+          <Property Type="Binary" Name="CodigoQR" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="PaqueteGetById_Result">
+          <Property Type="Int32" Name="IdPaquete" Nullable="false" />
+          <Property Type="String" Name="InstruccionEntrega" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="Peso" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="DireccionOrigen" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DireccionEntrega" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="FechaEstimadaEntrega" Nullable="true" />
+          <Property Type="String" Name="NumeroGuia" Nullable="true" MaxLength="15" />
+          <Property Type="Binary" Name="CodigoQR" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Repartidor">
+          <Key>
+            <PropertyRef Name="IdRepartidor" />
+          </Key>
+          <Property Name="IdRepartidor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="RepartidorGetAll_Result">
+          <Property Type="Int32" Name="IdRepartidor" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="RepartidorGetById_Result">
+          <Property Type="Int32" Name="IdRepartidor" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="100" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PacketTracerModelStoreContainer" CdmEntityContainer="PacketTracerEntities">
+          <EntitySetMapping Name="EstatusTransportes">
+            <EntityTypeMapping TypeName="PacketTracerModel.EstatusTransporte">
+              <MappingFragment StoreEntitySet="EstatusTransporte">
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paquetes">
+            <EntityTypeMapping TypeName="PacketTracerModel.Paquete">
+              <MappingFragment StoreEntitySet="Paquete">
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
+                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
+                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
+                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
+                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transportes">
+            <EntityTypeMapping TypeName="PacketTracerModel.Transporte">
+              <MappingFragment StoreEntitySet="Transporte">
+                <ScalarProperty Name="IdTransporte" ColumnName="IdTransporte" />
+                <ScalarProperty Name="NumeroPlaca" ColumnName="NumeroPlaca" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="AnioFabricacion" ColumnName="AnioFabricacion" />
+                <ScalarProperty Name="IdEstatusTransporte" ColumnName="IdEstatusTransporte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PaqueteAdd" FunctionName="PacketTracerModel.Store.PaqueteAdd" />
+          <FunctionImportMapping FunctionImportName="PaqueteDelete" FunctionName="PacketTracerModel.Store.PaqueteDelete" />
+          <FunctionImportMapping FunctionImportName="PaqueteGetAll" FunctionName="PacketTracerModel.Store.PaqueteGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PacketTracerModel.PaqueteGetAll_Result">
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
+                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
+                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
+                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
+                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PaqueteGetById" FunctionName="PacketTracerModel.Store.PaqueteGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PacketTracerModel.PaqueteGetById_Result">
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
+                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
+                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
+                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
+                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PaqueteUpdate" FunctionName="PacketTracerModel.Store.PaqueteUpdate" />
+          <EntitySetMapping Name="Repartidors">
+            <EntityTypeMapping TypeName="PacketTracerModel.Repartidor">
+              <MappingFragment StoreEntitySet="Repartidor">
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdRepartidor" ColumnName="IdRepartidor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RepartidorGetAll" FunctionName="PacketTracerModel.Store.RepartidorGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PacketTracerModel.RepartidorGetAll_Result">
+                <ScalarProperty Name="IdRepartidor" ColumnName="IdRepartidor" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RepartidorGetById" FunctionName="PacketTracerModel.Store.RepartidorGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PacketTracerModel.RepartidorGetById_Result">
+                <ScalarProperty Name="IdRepartidor" ColumnName="IdRepartidor" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

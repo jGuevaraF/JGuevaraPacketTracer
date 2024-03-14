@@ -1,0 +1,54 @@
+﻿@model ML.Envio
+@{
+    ViewBag.Title = "Envios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Envios</h1>
+<hr />
+
+@if (Model.Envios.Count > 0 && Model.Envios != null)
+{
+
+    @*<div class="btn-group d-flex" role="group" aria-label="Button group with nested dropdown">
+        <button type="button" onclick="AbrirModal()" class="btn btn-dark"><i class="fa-solid fa-money-bill"></i> Comprar</button>
+    </div>
+    <br />*@
+    <table class="table table-dark table-bordered table-responsive">
+        <thead>
+            <tr class="table-secondary">
+                <td class="text-center">Nombre Repartidor</td>
+                <td class="text-center">Paquetes a entregar</td>
+                <td class="text-center">Número de Guia</td>
+                <td class="text-center">Fecha Estimada</td>
+                <td class="text-center">Eliminar</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ML.Envio paquete in Model.Envios)
+            {
+                <tr class="text-center align-middle">
+                    <td>@paquete.Repartidor.Nombre @paquete.Repartidor.ApellidoPaterno @paquete.Repartidor.ApellidoMaterno</td>
+                   
+                    <td>@paquete.NumeroPaquetes </td>
+                    <td>@paquete.Paquete.NumeroGuia </td>
+                    <td>@paquete.Paquete.FechaEstimadaEntrega.ToShortDateString() </td>
+                    <td><a class="btn btn-danger" href="#"><i class="fa-solid fa-trash-can"></i></a> </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a type="button" class="btn btn-danger" href="#">Borrar todos los envíos</a>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        <p class="fs-3 fw-bold text-center"><u>No en envíos!</u></p>
+    </div>
+
+}
